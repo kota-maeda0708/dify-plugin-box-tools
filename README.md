@@ -3,6 +3,7 @@
 **Author:** kota-maeda0708
 **Version:** 0.0.1
 **Type:** Tool
+**Source repository:** https://github.com/kota-maeda0708/dify-plugin-box-tools
 
 ## Description
 
