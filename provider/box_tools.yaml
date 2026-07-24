@@ -26,12 +26,18 @@ credentials_for_provider:
     label:
       en_US: Client ID
       ja_JP: クライアント ID
+      zh_Hans: Client ID
+      pt_BR: Client ID
     placeholder:
       en_US: Please input your Box application's Client ID
       ja_JP: Box アプリの Client ID を入力してください
+      zh_Hans: 请输入您的 Box 应用的 Client ID
+      pt_BR: Insira o Client ID do seu aplicativo Box
     help:
       en_US: Found in your Box application's settings in the Box Developer Console.
       ja_JP: Box Developer Console のアプリ設定画面で確認できます。
+      zh_Hans: 可在 Box Developer Console 的应用设置中找到。
+      pt_BR: Disponível nas configurações do aplicativo no Box Developer Console.
     url: https://app.box.com/developers/console
   client_secret:
     type: secret-input
@@ -39,12 +45,18 @@ credentials_for_provider:
     label:
       en_US: Client Secret
       ja_JP: クライアントシークレット
+      zh_Hans: Client Secret
+      pt_BR: Client Secret
     placeholder:
       en_US: Please input your Box application's Client Secret
       ja_JP: Box アプリの Client Secret を入力してください
+      zh_Hans: 请输入您的 Box 应用的 Client Secret
+      pt_BR: Insira o Client Secret do seu aplicativo Box
     help:
       en_US: Found in your Box application's settings in the Box Developer Console.
       ja_JP: Box Developer Console のアプリ設定画面で確認できます。
+      zh_Hans: 可在 Box Developer Console 的应用设置中找到。
+      pt_BR: Disponível nas configurações do aplicativo no Box Developer Console.
     url: https://app.box.com/developers/console
   box_subject_type:
     type: select
@@ -53,30 +65,44 @@ credentials_for_provider:
     label:
       en_US: Subject Type
       ja_JP: サブジェクトタイプ
+      zh_Hans: 主体类型
+      pt_BR: Tipo de Sujeito
     options:
       - value: enterprise
         label:
           en_US: Enterprise
           ja_JP: エンタープライズ
+          zh_Hans: 企业
+          pt_BR: Empresa
       - value: user
         label:
           en_US: User
           ja_JP: ユーザー
+          zh_Hans: 用户
+          pt_BR: Usuário
     help:
       en_US: Whether the app authenticates as the enterprise (service account) or as a specific user.
       ja_JP: エンタープライズ(サービスアカウント)として認証するか、特定のユーザーとして認証するかを選択します。
+      zh_Hans: 选择应用以企业(服务账户)身份认证,还是以指定用户身份认证。
+      pt_BR: Se o aplicativo se autentica como a empresa (conta de serviço) ou como um usuário específico.
   box_subject_id:
     type: text-input
     required: true
     label:
       en_US: Enterprise ID / User ID
       ja_JP: エンタープライズ ID / ユーザー ID
+      zh_Hans: 企业 ID / 用户 ID
+      pt_BR: ID da Empresa / ID do Usuário
     placeholder:
       en_US: The Enterprise ID (or User ID) matching the Subject Type above
       ja_JP: 上記のサブジェクトタイプに対応するエンタープライズ ID(またはユーザー ID)
+      zh_Hans: 与上方主体类型对应的企业 ID(或用户 ID)
+      pt_BR: O ID da Empresa (ou ID do Usuário) correspondente ao Tipo de Sujeito acima
     help:
       en_US: Found in the Box Admin Console (Enterprise ID) or via the Box Users API (User ID).
       ja_JP: Box Admin Console(エンタープライズ ID)または Box Users API(ユーザー ID)で確認できます。
+      zh_Hans: 企业 ID 可在 Box Admin Console 中找到,用户 ID 可通过 Box Users API 获取。
+      pt_BR: O ID da Empresa está no Box Admin Console; o ID do Usuário pode ser obtido via Box Users API.
 
 # OAuth 2.0 (User Authentication) via authorization code flow.
 oauth_schema:
@@ -87,12 +113,18 @@ oauth_schema:
       label:
         en_US: Client ID
         ja_JP: クライアント ID
+        zh_Hans: Client ID
+        pt_BR: Client ID
       placeholder:
         en_US: Please input your Box application's Client ID
         ja_JP: Box アプリの Client ID を入力してください
+        zh_Hans: 请输入您的 Box 应用的 Client ID
+        pt_BR: Insira o Client ID do seu aplicativo Box
       help:
         en_US: Found in your Box application's settings in the Box Developer Console.
         ja_JP: Box Developer Console のアプリ設定画面で確認できます。
+        zh_Hans: 可在 Box Developer Console 的应用设置中找到。
+        pt_BR: Disponível nas configurações do aplicativo no Box Developer Console.
       url: https://app.box.com/developers/console
     - name: client_secret
       type: secret-input
@@ -100,12 +132,18 @@ oauth_schema:
       label:
         en_US: Client Secret
         ja_JP: クライアントシークレット
+        zh_Hans: Client Secret
+        pt_BR: Client Secret
       placeholder:
         en_US: Please input your Box application's Client Secret
         ja_JP: Box アプリの Client Secret を入力してください
+        zh_Hans: 请输入您的 Box 应用的 Client Secret
+        pt_BR: Insira o Client Secret do seu aplicativo Box
       help:
         en_US: Found in your Box application's settings in the Box Developer Console.
         ja_JP: Box Developer Console のアプリ設定画面で確認できます。
+        zh_Hans: 可在 Box Developer Console 的应用设置中找到。
+        pt_BR: Disponível nas configurações do aplicativo no Box Developer Console.
       url: https://app.box.com/developers/console
   credentials_schema:
     - name: access_token
@@ -113,11 +151,15 @@ oauth_schema:
       label:
         en_US: Access Token
         ja_JP: アクセストークン
+        zh_Hans: 访问令牌
+        pt_BR: Token de Acesso
     - name: refresh_token
       type: secret-input
       label:
         en_US: Refresh Token
         ja_JP: リフレッシュトークン
+        zh_Hans: 刷新令牌
+        pt_BR: Token de Atualização
 
 extra:
   python:

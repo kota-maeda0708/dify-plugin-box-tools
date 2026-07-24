@@ -5,11 +5,13 @@ identity:
     en_US: Upload File
     ja_JP: ファイルアップロード
     zh_Hans: 上传文件
+    pt_BR: Enviar Arquivo
 description:
   human:
     en_US: Upload a new file to a Box folder.
     ja_JP: Box フォルダに新しいファイルをアップロードします。
     zh_Hans: 将新文件上传到 Box 文件夹。
+    pt_BR: Envia um novo arquivo para uma pasta do Box.
   llm: >-
     Uploads a new file to a Box folder. Provide a file (e.g. from an earlier workflow step,
     such as this plugin's own download_file, a chat file upload, or another tool's output),
@@ -23,6 +25,8 @@ parameters:
     label:
       en_US: File
       ja_JP: ファイル
+      zh_Hans: 文件
+      pt_BR: Arquivo
     human_description:
       en_US: >-
         A file coming from an earlier step (e.g. a chat file upload, this plugin's
@@ -31,6 +35,13 @@ parameters:
       ja_JP: >-
         前段のステップ(チャットでのファイル添付、このプラグインの download_file の出力、他のツールなど)から渡されるファイル。
         指定した場合、テキスト/Base64入力より優先されます。
+      zh_Hans: >-
+        来自上一步的文件(例如聊天中上传的文件、本插件 download_file 的输出,或其他工具的输出)。
+        指定后将优先于文本内容/Base64内容。
+      pt_BR: >-
+        Um arquivo proveniente de uma etapa anterior (por exemplo, um upload no chat, a saída
+        do download_file deste plugin, ou de outra ferramenta). Tem prioridade sobre Conteúdo
+        do Arquivo / Conteúdo do Arquivo (Base64) quando fornecido.
     llm_description: >-
       A file object to upload to Box, typically produced by an earlier workflow step.
       Prefer wiring this over typing file_content/file_content_base64 when a file is
@@ -42,11 +53,17 @@ parameters:
     label:
       en_US: File Name
       ja_JP: ファイル名
+      zh_Hans: 文件名
+      pt_BR: Nome do Arquivo
     human_description:
       en_US: >-
         The name the file should have in Box, including its extension. Required unless
         File is provided and already carries a filename.
       ja_JP: Box 上でのファイル名(拡張子を含む)。Fileを指定していてファイル名を持っている場合は省略可能です。
+      zh_Hans: 文件在 Box 中的名称(含扩展名)。若已提供 File 且其本身带有文件名,则可省略。
+      pt_BR: >-
+        O nome que o arquivo deve ter no Box, incluindo a extensão. Obrigatório, a menos que
+        Arquivo seja fornecido e já contenha um nome de arquivo.
     llm_description: The file name to create in Box, e.g. "report.txt" or "image.png".
     form: llm
   - name: folder_id
@@ -56,9 +73,13 @@ parameters:
     label:
       en_US: Destination Folder ID
       ja_JP: アップロード先フォルダ ID
+      zh_Hans: 目标文件夹 ID
+      pt_BR: ID da Pasta de Destino
     human_description:
       en_US: The Box folder ID to upload into. Leave empty or "0" for the root folder.
       ja_JP: アップロード先の Box フォルダ ID。空欄または "0" でルートフォルダになります。
+      zh_Hans: 要上传到的 Box 文件夹 ID。留空或填 "0" 表示根文件夹。
+      pt_BR: O ID da pasta do Box para onde enviar o arquivo. Deixe em branco ou use "0" para a pasta raiz.
     llm_description: The Box folder ID to upload the file into. Defaults to "0" (root folder).
     form: llm
   - name: file_content
@@ -67,9 +88,13 @@ parameters:
     label:
       en_US: File Content (Text)
       ja_JP: ファイル内容(テキスト)
+      zh_Hans: 文件内容(文本)
+      pt_BR: Conteúdo do Arquivo (Texto)
     human_description:
       en_US: Plain text content to save. Use this or File Content (Base64), not both.
       ja_JP: 保存するプレーンテキスト内容。こちらかBase64のどちらかを指定してください。
+      zh_Hans: 要保存的纯文本内容。请二选一使用此项或 Base64 内容。
+      pt_BR: Conteúdo em texto simples a ser salvo. Use este ou o Conteúdo (Base64), não ambos.
     llm_description: Plain UTF-8 text content for the file. Either file_content or file_content_base64 must be provided.
     form: llm
   - name: file_content_base64
@@ -78,9 +103,13 @@ parameters:
     label:
       en_US: File Content (Base64)
       ja_JP: ファイル内容(Base64)
+      zh_Hans: 文件内容(Base64)
+      pt_BR: Conteúdo do Arquivo (Base64)
     human_description:
       en_US: Base64-encoded binary content. Use this or File Content (Text), not both.
       ja_JP: Base64エンコードされたバイナリ内容。こちらかテキストのどちらかを指定してください。
+      zh_Hans: Base64 编码的二进制内容。请二选一使用此项或文本内容。
+      pt_BR: Conteúdo binário codificado em Base64. Use este ou o Conteúdo (Texto), não ambos.
     llm_description: Base64-encoded content, for binary files such as images or documents.
     form: llm
 extra:

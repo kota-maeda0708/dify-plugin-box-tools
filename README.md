@@ -14,8 +14,8 @@ upload, download, create folders, delete, and move/rename items in Box.
 
 - **List Files and Folders**: View the contents of any folder in your Box account
 - **Search Files**: Find files and folders matching a keyword
-- **Upload Files**: Create new files in Box from text or base64-encoded content
-- **Download Files**: Retrieve file content from Box
+- **Upload Files**: Create new files in Box from a file input, plain text, or base64-encoded content
+- **Download Files**: Retrieve a file from Box as a Dify file usable by downstream nodes
 - **Create Folders**: Organize your Box account by creating new folders
 - **Delete Files/Folders**: Remove files or folders from Box
 - **Move / Rename**: Move an item to another folder and/or rename it
@@ -63,6 +63,9 @@ This plugin supports **two** authentication methods, selectable when you configu
 - **Upload File** accepts a `File` input (e.g. a chat file upload, or the output of Download
   File / another tool). If no file is provided, you can instead type plain text or paste
   base64-encoded content directly.
+- Box's simple upload endpoint (used by Upload File) supports files up to **50MB**; larger files
+  are not supported by this version of the plugin. Download File refuses files larger than
+  **100MB** to avoid excessive memory use.
 
 ## Usage Examples
 

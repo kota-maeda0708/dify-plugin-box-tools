@@ -5,11 +5,13 @@ identity:
     en_US: Search Files
     ja_JP: ファイル検索
     zh_Hans: 搜索文件
+    pt_BR: Pesquisar Arquivos
 description:
   human:
     en_US: Search for files and folders in Box by keyword.
     ja_JP: キーワードで Box 内のファイルとフォルダを検索します。
     zh_Hans: 按关键字搜索 Box 中的文件和文件夹。
+    pt_BR: Pesquisa arquivos e pastas no Box por palavra-chave.
   llm: >-
     Searches Box for files and folders matching a text query, optionally scoped to a folder.
     Returns each match's id, name, type and size, which can be used as input to other Box tools.
@@ -20,9 +22,13 @@ parameters:
     label:
       en_US: Query
       ja_JP: 検索クエリ
+      zh_Hans: 搜索关键字
+      pt_BR: Consulta
     human_description:
       en_US: The search keywords, e.g. a file name or partial text.
       ja_JP: 検索キーワード(ファイル名や部分一致テキストなど)。
+      zh_Hans: 搜索关键字,例如文件名或部分文本。
+      pt_BR: As palavras-chave de busca, por exemplo um nome de arquivo ou texto parcial.
     llm_description: The text query used to search Box, e.g. a file name, extension, or keyword.
     form: llm
   - name: folder_id
@@ -31,9 +37,13 @@ parameters:
     label:
       en_US: Folder ID
       ja_JP: フォルダ ID
+      zh_Hans: 文件夹 ID
+      pt_BR: ID da Pasta
     human_description:
       en_US: Restrict the search to this Box folder ID (optional).
       ja_JP: 検索対象を指定した Box フォルダ ID に限定します(任意)。
+      zh_Hans: 将搜索限制在此 Box 文件夹 ID 内(可选)。
+      pt_BR: Restringe a busca a este ID de pasta do Box (opcional).
     llm_description: Optional Box folder ID to restrict the search to that folder and its descendants.
     form: llm
   - name: limit
@@ -43,9 +53,13 @@ parameters:
     label:
       en_US: Limit
       ja_JP: 件数上限
+      zh_Hans: 数量上限
+      pt_BR: Limite
     human_description:
       en_US: Maximum number of results to return (default 20).
       ja_JP: 取得する件数の上限(デフォルト20件)。
+      zh_Hans: 返回结果的最大数量(默认 20)。
+      pt_BR: Número máximo de resultados a retornar (padrão 20).
     llm_description: Maximum number of results to return. Defaults to 20.
     form: llm
 extra:

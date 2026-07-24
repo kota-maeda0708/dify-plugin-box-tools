@@ -5,11 +5,13 @@ identity:
     en_US: Delete Item
     ja_JP: 削除
     zh_Hans: 删除项目
+    pt_BR: Excluir Item
 description:
   human:
     en_US: Delete a file or folder from Box.
     ja_JP: Box からファイルまたはフォルダを削除します。
     zh_Hans: 从 Box 中删除文件或文件夹。
+    pt_BR: Exclui um arquivo ou pasta do Box.
   llm: >-
     Deletes a file or folder in Box by id. Folder deletion is recursive (all contents are
     removed). This action cannot be undone via the API; confirm intent before calling.
@@ -20,9 +22,13 @@ parameters:
     label:
       en_US: Item ID
       ja_JP: 対象 ID
+      zh_Hans: 项目 ID
+      pt_BR: ID do Item
     human_description:
       en_US: The Box file or folder ID to delete.
       ja_JP: 削除する Box ファイル/フォルダの ID。
+      zh_Hans: 要删除的 Box 文件/文件夹 ID。
+      pt_BR: O ID do arquivo ou pasta do Box a ser excluído.
     llm_description: The numeric Box file or folder ID to delete.
     form: llm
   - name: item_type
@@ -32,9 +38,13 @@ parameters:
     label:
       en_US: Item Type
       ja_JP: 種別
+      zh_Hans: 项目类型
+      pt_BR: Tipo do Item
     human_description:
       en_US: Whether item_id refers to a file or a folder.
       ja_JP: item_id がファイルかフォルダかを指定します。
+      zh_Hans: 指定 item_id 是文件还是文件夹。
+      pt_BR: Se item_id se refere a um arquivo ou a uma pasta.
     llm_description: Set to "file" or "folder" to match the type of item_id.
     form: llm
     options:
@@ -42,10 +52,14 @@ parameters:
         label:
           en_US: File
           ja_JP: ファイル
+          zh_Hans: 文件
+          pt_BR: Arquivo
       - value: folder
         label:
           en_US: Folder
           ja_JP: フォルダ
+          zh_Hans: 文件夹
+          pt_BR: Pasta
 extra:
   python:
     source: tools/delete_item.py

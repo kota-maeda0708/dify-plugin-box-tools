@@ -5,11 +5,13 @@ identity:
     en_US: Download File
     ja_JP: ファイルダウンロード
     zh_Hans: 下载文件
+    pt_BR: Baixar Arquivo
 description:
   human:
     en_US: Download a file's content from Box.
     ja_JP: Box からファイルの内容をダウンロードします。
     zh_Hans: 从 Box 下载文件内容。
+    pt_BR: Baixa o conteúdo de um arquivo do Box.
   llm: >-
     Downloads the content of a Box file by its file ID and returns it as a file, ready to be
     used by downstream nodes/tools (e.g. document extraction, LLM vision, or re-uploading
@@ -21,9 +23,13 @@ parameters:
     label:
       en_US: File ID
       ja_JP: ファイル ID
+      zh_Hans: 文件 ID
+      pt_BR: ID do Arquivo
     human_description:
       en_US: The Box file ID to download.
       ja_JP: ダウンロードする Box ファイルの ID。
+      zh_Hans: 要下载的 Box 文件 ID。
+      pt_BR: O ID do arquivo do Box a ser baixado.
     llm_description: The numeric Box file ID to download. Obtain it from list_files or search_files.
     form: llm
 extra:

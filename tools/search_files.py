@@ -15,13 +15,17 @@ class SearchFilesTool(Tool):
             return
 
         folder_id = tool_parameters.get("folder_id") or None
-        limit = int(tool_parameters.get("limit") or 20)
+        limit_param = tool_parameters.get("limit")
+        limit = int(limit_param) if limit_param is not None else 20
 
         try:
             client = BoxClient(self.runtime.credentials)
             result = client.search(query=query, limit=limit, folder_id=folder_id)
         except (BoxAuthError, BoxApiError) as e:
             yield self.create_text_message(f"Failed to search Box for '{query}': {e}")
+            return
+        except Exception as e:
+            yield self.create_text_message(f"Unexpected error while searching Box for '{query}': {e}")
             return
 
         entries = result.get("entries", [])

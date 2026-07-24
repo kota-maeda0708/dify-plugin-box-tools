@@ -25,6 +25,9 @@ class DeleteItemTool(Tool):
         except (BoxAuthError, BoxApiError) as e:
             yield self.create_text_message(f"Failed to delete Box {item_type} {item_id}: {e}")
             return
+        except Exception as e:
+            yield self.create_text_message(f"Unexpected error while deleting Box {item_type} {item_id}: {e}")
+            return
 
         yield self.create_text_message(f"Box {item_type} {item_id} deleted successfully.")
         yield self.create_json_message({"item_id": item_id, "item_type": item_type, "deleted": True})

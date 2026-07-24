@@ -5,11 +5,13 @@ identity:
     en_US: Create Folder
     ja_JP: フォルダ作成
     zh_Hans: 创建文件夹
+    pt_BR: Criar Pasta
 description:
   human:
     en_US: Create a new folder in Box.
     ja_JP: Box に新しいフォルダを作成します。
     zh_Hans: 在 Box 中创建一个新文件夹。
+    pt_BR: Cria uma nova pasta no Box.
   llm: Creates a new folder in Box under the given parent folder. Returns the new folder's id and name.
 parameters:
   - name: name
@@ -18,9 +20,13 @@ parameters:
     label:
       en_US: Folder Name
       ja_JP: フォルダ名
+      zh_Hans: 文件夹名称
+      pt_BR: Nome da Pasta
     human_description:
       en_US: The name of the new folder.
       ja_JP: 新しく作成するフォルダの名前。
+      zh_Hans: 新文件夹的名称。
+      pt_BR: O nome da nova pasta.
     llm_description: The name to give the new folder.
     form: llm
   - name: parent_folder_id
@@ -30,9 +36,13 @@ parameters:
     label:
       en_US: Parent Folder ID
       ja_JP: 親フォルダ ID
+      zh_Hans: 父文件夹 ID
+      pt_BR: ID da Pasta Pai
     human_description:
       en_US: The Box folder ID to create the new folder in. Leave empty or "0" for the root folder.
       ja_JP: 作成先の親フォルダ ID。空欄または "0" でルートフォルダになります。
+      zh_Hans: 新文件夹的所在父文件夹 ID。留空或填 "0" 表示根文件夹。
+      pt_BR: O ID da pasta do Box onde a nova pasta será criada. Deixe em branco ou use "0" para a pasta raiz.
     llm_description: The Box folder ID under which the new folder will be created. Defaults to "0" (root folder).
     form: llm
 extra:

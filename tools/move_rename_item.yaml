@@ -5,11 +5,13 @@ identity:
     en_US: Move / Rename Item
     ja_JP: 移動・リネーム
     zh_Hans: 移动/重命名项目
+    pt_BR: Mover / Renomear Item
 description:
   human:
     en_US: Move and/or rename a file or folder in Box.
     ja_JP: Box のファイルまたはフォルダを移動・リネームします。
     zh_Hans: 移动和/或重命名 Box 中的文件或文件夹。
+    pt_BR: Move e/ou renomeia um arquivo ou pasta no Box.
   llm: >-
     Moves a Box file or folder to a new parent folder and/or renames it. Provide new_name to
     rename, new_parent_folder_id to move, or both. At least one must be provided.
@@ -20,9 +22,13 @@ parameters:
     label:
       en_US: Item ID
       ja_JP: 対象 ID
+      zh_Hans: 项目 ID
+      pt_BR: ID do Item
     human_description:
       en_US: The Box file or folder ID to move/rename.
       ja_JP: 移動・リネーム対象の Box ファイル/フォルダの ID。
+      zh_Hans: 要移动/重命名的 Box 文件/文件夹 ID。
+      pt_BR: O ID do arquivo ou pasta do Box a ser movido/renomeado.
     llm_description: The numeric Box file or folder ID to move and/or rename.
     form: llm
   - name: item_type
@@ -32,9 +38,13 @@ parameters:
     label:
       en_US: Item Type
       ja_JP: 種別
+      zh_Hans: 项目类型
+      pt_BR: Tipo do Item
     human_description:
       en_US: Whether item_id refers to a file or a folder.
       ja_JP: item_id がファイルかフォルダかを指定します。
+      zh_Hans: 指定 item_id 是文件还是文件夹。
+      pt_BR: Se item_id se refere a um arquivo ou a uma pasta.
     llm_description: Set to "file" or "folder" to match the type of item_id.
     form: llm
     options:
@@ -42,19 +52,27 @@ parameters:
         label:
           en_US: File
           ja_JP: ファイル
+          zh_Hans: 文件
+          pt_BR: Arquivo
       - value: folder
         label:
           en_US: Folder
           ja_JP: フォルダ
+          zh_Hans: 文件夹
+          pt_BR: Pasta
   - name: new_name
     type: string
     required: false
     label:
       en_US: New Name
       ja_JP: 新しい名前
+      zh_Hans: 新名称
+      pt_BR: Novo Nome
     human_description:
       en_US: The new name for the item (leave empty to keep the current name).
       ja_JP: 変更後の名前(現在の名前を維持する場合は空欄)。
+      zh_Hans: 项目的新名称(留空表示保留当前名称)。
+      pt_BR: O novo nome do item (deixe em branco para manter o nome atual).
     llm_description: New name to give the item. Omit to keep the current name.
     form: llm
   - name: new_parent_folder_id
@@ -63,9 +81,13 @@ parameters:
     label:
       en_US: New Parent Folder ID
       ja_JP: 移動先フォルダ ID
+      zh_Hans: 新的父文件夹 ID
+      pt_BR: Novo ID da Pasta Pai
     human_description:
       en_US: The Box folder ID to move the item into (leave empty to keep the current location).
       ja_JP: 移動先の Box フォルダ ID(現在の場所を維持する場合は空欄)。
+      zh_Hans: 要移动到的 Box 文件夹 ID(留空表示保留当前位置)。
+      pt_BR: O ID da pasta do Box para onde mover o item (deixe em branco para manter o local atual).
     llm_description: Box folder ID to move the item into. Omit to keep the current parent folder.
     form: llm
 extra:

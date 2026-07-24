@@ -22,6 +22,9 @@ class CreateFolderTool(Tool):
         except (BoxAuthError, BoxApiError) as e:
             yield self.create_text_message(f"Failed to create folder '{name}' in Box: {e}")
             return
+        except Exception as e:
+            yield self.create_text_message(f"Unexpected error while creating folder '{name}' in Box: {e}")
+            return
 
         yield self.create_text_message(f"Folder '{name}' created in folder {parent_folder_id}.")
         yield self.create_json_message(result)

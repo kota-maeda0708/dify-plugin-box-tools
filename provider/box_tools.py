@@ -11,12 +11,27 @@ from dify_plugin import ToolProvider
 from dify_plugin.entities.oauth import ToolOAuthCredentials
 from dify_plugin.errors.tool import ToolProviderCredentialValidationError, ToolProviderOAuthError
 
-from box_client import BoxAuthError, BoxClient, BOX_TOKEN_URL
+from box_client import BOX_TOKEN_URL, BoxAuthError, BoxClient
+
+_REQUEST_TIMEOUT = 30
+
+
+def _post_token_request(data: dict[str, Any]) -> dict[str, Any]:
+    try:
+        response = requests.post(BOX_TOKEN_URL, data=data, timeout=_REQUEST_TIMEOUT)
+    except requests.exceptions.RequestException as e:
+        raise ToolProviderOAuthError(f"Failed to reach Box while exchanging the OAuth token: {e}") from e
+    try:
+        response_json = response.json()
+    except ValueError as e:
+        raise ToolProviderOAuthError(f"Box OAuth token response was not valid JSON: {e}") from e
+    if response.status_code != 200:
+        raise ToolProviderOAuthError(f"Box OAuth token request failed ({response.status_code}): {response_json}")
+    return response_json
 
 
 class BoxProvider(ToolProvider):
     _AUTHORIZE_URL = "https://account.box.com/api/oauth2/authorize"
-    _TOKEN_URL = BOX_TOKEN_URL
 
     def _oauth_get_authorization_url(self, redirect_uri: str, system_credentials: Mapping[str, Any]) -> str:
         state = secrets.token_urlsafe(16)
@@ -42,8 +57,7 @@ class BoxProvider(ToolProvider):
             "client_secret": system_credentials["client_secret"],
             "redirect_uri": redirect_uri,
         }
-        response = requests.post(self._TOKEN_URL, data=data, timeout=10)
-        response_json = response.json()
+        response_json = _post_token_request(data)
         access_token = response_json.get("access_token")
         if not access_token:
             raise ToolProviderOAuthError(f"Error in Box OAuth: {response_json}")
@@ -70,8 +84,7 @@ class BoxProvider(ToolProvider):
             "client_id": system_credentials["client_id"],
             "client_secret": system_credentials["client_secret"],
         }
-        response = requests.post(self._TOKEN_URL, data=data, timeout=10)
-        response_json = response.json()
+        response_json = _post_token_request(data)
         access_token = response_json.get("access_token")
         if not access_token:
             raise ToolProviderOAuthError(f"Error refreshing Box OAuth token: {response_json}")

@@ -50,6 +50,9 @@ class UploadFileTool(Tool):
         except (BoxAuthError, BoxApiError) as e:
             yield self.create_text_message(f"Failed to upload '{file_name}' to Box: {e}")
             return
+        except Exception as e:
+            yield self.create_text_message(f"Unexpected error while uploading '{file_name}' to Box: {e}")
+            return
 
         entry = (result.get("entries") or [result])[0]
         yield self.create_text_message(f"File '{file_name}' uploaded successfully to folder {folder_id}.")

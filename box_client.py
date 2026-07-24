@@ -50,10 +50,16 @@ class BoxClient:
             "box_subject_type": box_subject_type,
             "box_subject_id": box_subject_id,
         }
-        response = requests.post(BOX_TOKEN_URL, data=data, timeout=_REQUEST_TIMEOUT)
+        try:
+            response = requests.post(BOX_TOKEN_URL, data=data, timeout=_REQUEST_TIMEOUT)
+        except requests.exceptions.RequestException as e:
+            raise BoxAuthError(f"Failed to reach Box while requesting an access token: {e}") from e
         if response.status_code != 200:
             raise BoxAuthError(f"Failed to obtain a Box access token: {response.text}")
-        token = response.json().get("access_token")
+        try:
+            token = response.json().get("access_token")
+        except ValueError as e:
+            raise BoxAuthError(f"Box token response was not valid JSON: {e}") from e
         if not token:
             raise BoxAuthError(f"Box token response did not contain an access token: {response.text}")
         return token
@@ -64,13 +70,23 @@ class BoxClient:
     def _request(self, method: str, url: str, **kwargs) -> requests.Response:
         headers = kwargs.pop("headers", {})
         headers.update(self._headers())
-        response = requests.request(method, url, headers=headers, timeout=_REQUEST_TIMEOUT, **kwargs)
+        try:
+            response = requests.request(method, url, headers=headers, timeout=_REQUEST_TIMEOUT, **kwargs)
+        except requests.exceptions.RequestException as e:
+            raise BoxApiError(f"Failed to reach the Box API: {e}") from e
         if response.status_code >= 400:
             raise BoxApiError(f"Box API error ({response.status_code}): {response.text}")
         return response
 
+    @staticmethod
+    def _json(response: requests.Response) -> Any:
+        try:
+            return response.json()
+        except ValueError as e:
+            raise BoxApiError(f"Box API returned a response that was not valid JSON: {e}") from e
+
     def get_current_user(self) -> dict[str, Any]:
-        return self._request("GET", f"{BOX_API_BASE}/users/me").json()
+        return self._json(self._request("GET", f"{BOX_API_BASE}/users/me"))
 
     def list_folder_items(self, folder_id: str = "0", limit: int = 100, offset: int = 0) -> dict[str, Any]:
         params = {
@@ -78,7 +94,7 @@ class BoxClient:
             "offset": offset,
             "fields": "id,name,type,size,modified_at,created_at",
         }
-        return self._request("GET", f"{BOX_API_BASE}/folders/{folder_id}/items", params=params).json()
+        return self._json(self._request("GET", f"{BOX_API_BASE}/folders/{folder_id}/items", params=params))
 
     def search(self, query: str, limit: int = 20, folder_id: str | None = None) -> dict[str, Any]:
         params: dict[str, Any] = {
@@ -88,7 +104,7 @@ class BoxClient:
         }
         if folder_id:
             params["ancestor_folder_ids"] = folder_id
-        return self._request("GET", f"{BOX_API_BASE}/search", params=params).json()
+        return self._json(self._request("GET", f"{BOX_API_BASE}/search", params=params))
 
     def upload_file(self, parent_folder_id: str, file_name: str, file_content: bytes) -> dict[str, Any]:
         attributes = {"name": file_name, "parent": {"id": parent_folder_id}}
@@ -96,18 +112,18 @@ class BoxClient:
             "attributes": (None, json.dumps(attributes), "application/json"),
             "file": (file_name, file_content),
         }
-        return self._request("POST", f"{BOX_UPLOAD_BASE}/files/content", files=files).json()
+        return self._json(self._request("POST", f"{BOX_UPLOAD_BASE}/files/content", files=files))
 
     def get_file_info(self, file_id: str) -> dict[str, Any]:
         params = {"fields": "id,name,size,extension"}
-        return self._request("GET", f"{BOX_API_BASE}/files/{file_id}", params=params).json()
+        return self._json(self._request("GET", f"{BOX_API_BASE}/files/{file_id}", params=params))
 
     def download_file(self, file_id: str) -> bytes:
         return self._request("GET", f"{BOX_API_BASE}/files/{file_id}/content").content
 
     def create_folder(self, name: str, parent_folder_id: str = "0") -> dict[str, Any]:
         payload = {"name": name, "parent": {"id": parent_folder_id}}
-        return self._request("POST", f"{BOX_API_BASE}/folders", json=payload).json()
+        return self._json(self._request("POST", f"{BOX_API_BASE}/folders", json=payload))
 
     def delete_item(self, item_id: str, item_type: str = "file") -> None:
         endpoint = "files" if item_type == "file" else "folders"
@@ -129,4 +145,4 @@ class BoxClient:
             payload["parent"] = {"id": new_parent_id}
         if not payload:
             raise BoxApiError("Either new_name or new_parent_id must be provided.")
-        return self._request("PUT", f"{BOX_API_BASE}/{endpoint}/{item_id}", json=payload).json()
+        return self._json(self._request("PUT", f"{BOX_API_BASE}/{endpoint}/{item_id}", json=payload))
