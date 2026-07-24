@@ -1,0 +1,38 @@
+version: 0.0.1
+type: plugin
+author: kota-maeda0708
+name: box
+label:
+  en_US: Box
+  ja_JP: Box
+  zh_Hans: Box
+  pt_BR: Box
+description:
+  en_US: Interact with Box files and folders. List, search, upload, download, create folders, delete, move and rename items.
+  ja_JP: Box のファイルとフォルダを操作します。一覧表示、検索、アップロード、ダウンロード、フォルダ作成、削除、移動・リネームが可能です。
+  zh_Hans: 与 Box 文件和文件夹交互。支持列出、搜索、上传、下载、创建文件夹、删除以及移动/重命名。
+  pt_BR: Interaja com arquivos e pastas do Box. Liste, pesquise, faça upload, download, crie pastas, exclua, mova e renomeie itens.
+icon: icon.svg
+resource:
+  memory: 268435456
+  permission:
+    tool:
+      enabled: true
+    model:
+      enabled: false
+    storage:
+      enabled: false
+plugins:
+  tools:
+    - provider/box.yaml
+meta:
+  version: 0.0.1
+  arch:
+    - amd64
+    - arm64
+  runner:
+    language: python
+    version: "3.12"
+    entrypoint: main
+created_at: 2026-07-24T00:00:00.000000+09:00
+privacy: PRIVACY.md

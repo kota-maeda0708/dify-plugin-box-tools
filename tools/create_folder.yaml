@@ -1,0 +1,40 @@
+identity:
+  name: create_folder
+  author: kota-maeda0708
+  label:
+    en_US: Create Folder
+    ja_JP: フォルダ作成
+    zh_Hans: 创建文件夹
+description:
+  human:
+    en_US: Create a new folder in Box.
+    ja_JP: Box に新しいフォルダを作成します。
+    zh_Hans: 在 Box 中创建一个新文件夹。
+  llm: Creates a new folder in Box under the given parent folder. Returns the new folder's id and name.
+parameters:
+  - name: name
+    type: string
+    required: true
+    label:
+      en_US: Folder Name
+      ja_JP: フォルダ名
+    human_description:
+      en_US: The name of the new folder.
+      ja_JP: 新しく作成するフォルダの名前。
+    llm_description: The name to give the new folder.
+    form: llm
+  - name: parent_folder_id
+    type: string
+    required: false
+    default: "0"
+    label:
+      en_US: Parent Folder ID
+      ja_JP: 親フォルダ ID
+    human_description:
+      en_US: The Box folder ID to create the new folder in. Leave empty or "0" for the root folder.
+      ja_JP: 作成先の親フォルダ ID。空欄または "0" でルートフォルダになります。
+    llm_description: The Box folder ID under which the new folder will be created. Defaults to "0" (root folder).
+    form: llm
+extra:
+  python:
+    source: tools/create_folder.py

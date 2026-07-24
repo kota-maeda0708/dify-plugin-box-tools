@@ -1,0 +1,53 @@
+identity:
+  name: search_files
+  author: kota-maeda0708
+  label:
+    en_US: Search Files
+    ja_JP: ファイル検索
+    zh_Hans: 搜索文件
+description:
+  human:
+    en_US: Search for files and folders in Box by keyword.
+    ja_JP: キーワードで Box 内のファイルとフォルダを検索します。
+    zh_Hans: 按关键字搜索 Box 中的文件和文件夹。
+  llm: >-
+    Searches Box for files and folders matching a text query, optionally scoped to a folder.
+    Returns each match's id, name, type and size, which can be used as input to other Box tools.
+parameters:
+  - name: query
+    type: string
+    required: true
+    label:
+      en_US: Query
+      ja_JP: 検索クエリ
+    human_description:
+      en_US: The search keywords, e.g. a file name or partial text.
+      ja_JP: 検索キーワード(ファイル名や部分一致テキストなど)。
+    llm_description: The text query used to search Box, e.g. a file name, extension, or keyword.
+    form: llm
+  - name: folder_id
+    type: string
+    required: false
+    label:
+      en_US: Folder ID
+      ja_JP: フォルダ ID
+    human_description:
+      en_US: Restrict the search to this Box folder ID (optional).
+      ja_JP: 検索対象を指定した Box フォルダ ID に限定します(任意)。
+    llm_description: Optional Box folder ID to restrict the search to that folder and its descendants.
+    form: llm
+  - name: limit
+    type: number
+    required: false
+    default: 20
+    label:
+      en_US: Limit
+      ja_JP: 件数上限
+    human_description:
+      en_US: Maximum number of results to return (default 20).
+      ja_JP: 取得する件数の上限(デフォルト20件)。
+    llm_description: Maximum number of results to return. Defaults to 20.
+    form: llm
+extra:
+  python:
+    source: tools/search_files.py

@@ -1,0 +1,51 @@
+identity:
+  name: delete_item
+  author: kota-maeda0708
+  label:
+    en_US: Delete Item
+    ja_JP: 削除
+    zh_Hans: 删除项目
+description:
+  human:
+    en_US: Delete a file or folder from Box.
+    ja_JP: Box からファイルまたはフォルダを削除します。
+    zh_Hans: 从 Box 中删除文件或文件夹。
+  llm: >-
+    Deletes a file or folder in Box by id. Folder deletion is recursive (all contents are
+    removed). This action cannot be undone via the API; confirm intent before calling.
+parameters:
+  - name: item_id
+    type: string
+    required: true
+    label:
+      en_US: Item ID
+      ja_JP: 対象 ID
+    human_description:
+      en_US: The Box file or folder ID to delete.
+      ja_JP: 削除する Box ファイル/フォルダの ID。
+    llm_description: The numeric Box file or folder ID to delete.
+    form: llm
+  - name: item_type
+    type: select
+    required: true
+    default: file
+    label:
+      en_US: Item Type
+      ja_JP: 種別
+    human_description:
+      en_US: Whether item_id refers to a file or a folder.
+      ja_JP: item_id がファイルかフォルダかを指定します。
+    llm_description: Set to "file" or "folder" to match the type of item_id.
+    form: llm
+    options:
+      - value: file
+        label:
+          en_US: File
+          ja_JP: ファイル
+      - value: folder
+        label:
+          en_US: Folder
+          ja_JP: フォルダ
+extra:
+  python:
+    source: tools/delete_item.py

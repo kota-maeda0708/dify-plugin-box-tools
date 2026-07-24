@@ -1,0 +1,30 @@
+identity:
+  name: download_file
+  author: kota-maeda0708
+  label:
+    en_US: Download File
+    ja_JP: ファイルダウンロード
+    zh_Hans: 下载文件
+description:
+  human:
+    en_US: Download a file's content from Box.
+    ja_JP: Box からファイルの内容をダウンロードします。
+    zh_Hans: 从 Box 下载文件内容。
+  llm: >-
+    Downloads the content of a Box file by its file ID and returns it as base64-encoded data
+    (and as plain text when the content decodes as UTF-8 text and is under 1MB).
+parameters:
+  - name: file_id
+    type: string
+    required: true
+    label:
+      en_US: File ID
+      ja_JP: ファイル ID
+    human_description:
+      en_US: The Box file ID to download.
+      ja_JP: ダウンロードする Box ファイルの ID。
+    llm_description: The numeric Box file ID to download. Obtain it from list_files or search_files.
+    form: llm
+extra:
+  python:
+    source: tools/download_file.py

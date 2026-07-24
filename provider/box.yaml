@@ -1,0 +1,133 @@
+identity:
+  author: kota-maeda0708
+  name: box
+  label:
+    en_US: Box
+    ja_JP: Box
+    zh_Hans: Box
+    pt_BR: Box
+  description:
+    en_US: Interact with Box files and folders.
+    ja_JP: Box のファイルとフォルダを操作します。
+    zh_Hans: 与 Box 文件和文件夹交互。
+    pt_BR: Interaja com arquivos e pastas do Box.
+  icon: icon.svg
+  tags:
+    - utilities
+    - productivity
+
+# "Secret Key" authentication: Box Client Credentials Grant (Server Authentication).
+# Suitable for a single Box app acting on behalf of an enterprise or a specific user,
+# without requiring an interactive OAuth redirect.
+credentials_for_provider:
+  client_id:
+    type: secret-input
+    required: true
+    label:
+      en_US: Client ID
+      ja_JP: クライアント ID
+    placeholder:
+      en_US: Please input your Box application's Client ID
+      ja_JP: Box アプリの Client ID を入力してください
+    help:
+      en_US: Found in your Box application's settings in the Box Developer Console.
+      ja_JP: Box Developer Console のアプリ設定画面で確認できます。
+    url: https://app.box.com/developers/console
+  client_secret:
+    type: secret-input
+    required: true
+    label:
+      en_US: Client Secret
+      ja_JP: クライアントシークレット
+    placeholder:
+      en_US: Please input your Box application's Client Secret
+      ja_JP: Box アプリの Client Secret を入力してください
+    help:
+      en_US: Found in your Box application's settings in the Box Developer Console.
+      ja_JP: Box Developer Console のアプリ設定画面で確認できます。
+    url: https://app.box.com/developers/console
+  box_subject_type:
+    type: select
+    required: true
+    default: enterprise
+    label:
+      en_US: Subject Type
+      ja_JP: サブジェクトタイプ
+    options:
+      - value: enterprise
+        label:
+          en_US: Enterprise
+          ja_JP: エンタープライズ
+      - value: user
+        label:
+          en_US: User
+          ja_JP: ユーザー
+    help:
+      en_US: Whether the app authenticates as the enterprise (service account) or as a specific user.
+      ja_JP: エンタープライズ(サービスアカウント)として認証するか、特定のユーザーとして認証するかを選択します。
+  box_subject_id:
+    type: text-input
+    required: true
+    label:
+      en_US: Enterprise ID / User ID
+      ja_JP: エンタープライズ ID / ユーザー ID
+    placeholder:
+      en_US: The Enterprise ID (or User ID) matching the Subject Type above
+      ja_JP: 上記のサブジェクトタイプに対応するエンタープライズ ID(またはユーザー ID)
+    help:
+      en_US: Found in the Box Admin Console (Enterprise ID) or via the Box Users API (User ID).
+      ja_JP: Box Admin Console(エンタープライズ ID)または Box Users API(ユーザー ID)で確認できます。
+
+# OAuth 2.0 (User Authentication) via authorization code flow.
+oauth_schema:
+  client_schema:
+    - name: client_id
+      type: secret-input
+      required: true
+      label:
+        en_US: Client ID
+        ja_JP: クライアント ID
+      placeholder:
+        en_US: Please input your Box application's Client ID
+        ja_JP: Box アプリの Client ID を入力してください
+      help:
+        en_US: Found in your Box application's settings in the Box Developer Console.
+        ja_JP: Box Developer Console のアプリ設定画面で確認できます。
+      url: https://app.box.com/developers/console
+    - name: client_secret
+      type: secret-input
+      required: true
+      label:
+        en_US: Client Secret
+        ja_JP: クライアントシークレット
+      placeholder:
+        en_US: Please input your Box application's Client Secret
+        ja_JP: Box アプリの Client Secret を入力してください
+      help:
+        en_US: Found in your Box application's settings in the Box Developer Console.
+        ja_JP: Box Developer Console のアプリ設定画面で確認できます。
+      url: https://app.box.com/developers/console
+  credentials_schema:
+    - name: access_token
+      type: secret-input
+      label:
+        en_US: Access Token
+        ja_JP: アクセストークン
+    - name: refresh_token
+      type: secret-input
+      label:
+        en_US: Refresh Token
+        ja_JP: リフレッシュトークン
+
+extra:
+  python:
+    source: provider/box.py
+
+tools:
+  - tools/list_files.yaml
+  - tools/search_files.yaml
+  - tools/upload_file.yaml
+  - tools/download_file.yaml
+  - tools/create_folder.yaml
+  - tools/delete_item.yaml
+  - tools/move_rename_item.yaml

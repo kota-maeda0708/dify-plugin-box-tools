@@ -1,0 +1,73 @@
+identity:
+  name: move_rename_item
+  author: kota-maeda0708
+  label:
+    en_US: Move / Rename Item
+    ja_JP: 移動・リネーム
+    zh_Hans: 移动/重命名项目
+description:
+  human:
+    en_US: Move and/or rename a file or folder in Box.
+    ja_JP: Box のファイルまたはフォルダを移動・リネームします。
+    zh_Hans: 移动和/或重命名 Box 中的文件或文件夹。
+  llm: >-
+    Moves a Box file or folder to a new parent folder and/or renames it. Provide new_name to
+    rename, new_parent_folder_id to move, or both. At least one must be provided.
+parameters:
+  - name: item_id
+    type: string
+    required: true
+    label:
+      en_US: Item ID
+      ja_JP: 対象 ID
+    human_description:
+      en_US: The Box file or folder ID to move/rename.
+      ja_JP: 移動・リネーム対象の Box ファイル/フォルダの ID。
+    llm_description: The numeric Box file or folder ID to move and/or rename.
+    form: llm
+  - name: item_type
+    type: select
+    required: true
+    default: file
+    label:
+      en_US: Item Type
+      ja_JP: 種別
+    human_description:
+      en_US: Whether item_id refers to a file or a folder.
+      ja_JP: item_id がファイルかフォルダかを指定します。
+    llm_description: Set to "file" or "folder" to match the type of item_id.
+    form: llm
+    options:
+      - value: file
+        label:
+          en_US: File
+          ja_JP: ファイル
+      - value: folder
+        label:
+          en_US: Folder
+          ja_JP: フォルダ
+  - name: new_name
+    type: string
+    required: false
+    label:
+      en_US: New Name
+      ja_JP: 新しい名前
+    human_description:
+      en_US: The new name for the item (leave empty to keep the current name).
+      ja_JP: 変更後の名前(現在の名前を維持する場合は空欄)。
+    llm_description: New name to give the item. Omit to keep the current name.
+    form: llm
+  - name: new_parent_folder_id
+    type: string
+    required: false
+    label:
+      en_US: New Parent Folder ID
+      ja_JP: 移動先フォルダ ID
+    human_description:
+      en_US: The Box folder ID to move the item into (leave empty to keep the current location).
+      ja_JP: 移動先の Box フォルダ ID(現在の場所を維持する場合は空欄)。
+    llm_description: Box folder ID to move the item into. Omit to keep the current parent folder.
+    form: llm
+extra:
+  python:
+    source: tools/move_rename_item.py

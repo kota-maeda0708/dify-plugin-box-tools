@@ -1,0 +1,65 @@
+identity:
+  name: upload_file
+  author: kota-maeda0708
+  label:
+    en_US: Upload File
+    ja_JP: ファイルアップロード
+    zh_Hans: 上传文件
+description:
+  human:
+    en_US: Upload a new file to a Box folder.
+    ja_JP: Box フォルダに新しいファイルをアップロードします。
+    zh_Hans: 将新文件上传到 Box 文件夹。
+  llm: >-
+    Uploads a new file to a Box folder. Provide either plain text content or base64-encoded
+    binary content. Returns the created file's id, name and size. Note: this creates a new
+    file; use move_rename_item to overwrite/rename an existing one.
+parameters:
+  - name: file_name
+    type: string
+    required: true
+    label:
+      en_US: File Name
+      ja_JP: ファイル名
+    human_description:
+      en_US: The name the file should have in Box, including its extension.
+      ja_JP: Box 上でのファイル名(拡張子を含む)。
+    llm_description: The file name to create in Box, e.g. "report.txt" or "image.png".
+    form: llm
+  - name: folder_id
+    type: string
+    required: false
+    default: "0"
+    label:
+      en_US: Destination Folder ID
+      ja_JP: アップロード先フォルダ ID
+    human_description:
+      en_US: The Box folder ID to upload into. Leave empty or "0" for the root folder.
+      ja_JP: アップロード先の Box フォルダ ID。空欄または "0" でルートフォルダになります。
+    llm_description: The Box folder ID to upload the file into. Defaults to "0" (root folder).
+    form: llm
+  - name: file_content
+    type: string
+    required: false
+    label:
+      en_US: File Content (Text)
+      ja_JP: ファイル内容(テキスト)
+    human_description:
+      en_US: Plain text content to save. Use this or File Content (Base64), not both.
+      ja_JP: 保存するプレーンテキスト内容。こちらかBase64のどちらかを指定してください。
+    llm_description: Plain UTF-8 text content for the file. Either file_content or file_content_base64 must be provided.
+    form: llm
+  - name: file_content_base64
+    type: string
+    required: false
+    label:
+      en_US: File Content (Base64)
+      ja_JP: ファイル内容(Base64)
+    human_description:
+      en_US: Base64-encoded binary content. Use this or File Content (Text), not both.
+      ja_JP: Base64エンコードされたバイナリ内容。こちらかテキストのどちらかを指定してください。
+    llm_description: Base64-encoded content, for binary files such as images or documents.
+    form: llm
+extra:
+  python:
+    source: tools/upload_file.py
