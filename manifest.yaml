@@ -1,7 +1,7 @@
 version: 0.0.1
 type: plugin
 author: kota-maeda0708
-name: box
+name: box_tools
 label:
   en_US: Box
   ja_JP: Box
@@ -22,7 +22,7 @@ resource:
       enabled: false
 plugins:
   tools:
-    - provider/box.yaml
+    - provider/box_tools.yaml
 meta:
   version: 0.0.1
   arch:

@@ -1,6 +1,6 @@
 identity:
   author: kota-maeda0708
-  name: box
+  name: box_tools
   label:
     en_US: Box
     ja_JP: Box
@@ -121,7 +121,7 @@ oauth_schema:
 
 extra:
   python:
-    source: provider/box.py
+    source: provider/box_tools.py
 
 tools:
   - tools/list_files.yaml
