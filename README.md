@@ -55,6 +55,15 @@ This plugin supports **two** authentication methods, selectable when you configu
    Subject Type (`enterprise` or `user`), and the matching Enterprise/User ID. This method does
    not require an interactive browser redirect and is well suited for server-to-server use.
 
+## Files
+
+- **Download File** returns the file as an actual Dify file (not just base64 text), so it can
+  be wired directly into downstream nodes/tools such as document extraction, LLM vision, or
+  another upload step.
+- **Upload File** accepts a `File` input (e.g. a chat file upload, or the output of Download
+  File / another tool). If no file is provided, you can instead type plain text or paste
+  base64-encoded content directly.
+
 ## Usage Examples
 
 ### List files in your Box root folder

@@ -1,4 +1,4 @@
-import base64
+import mimetypes
 from collections.abc import Generator
 from typing import Any
 
@@ -17,21 +17,17 @@ class DownloadFileTool(Tool):
 
         try:
             client = BoxClient(self.runtime.credentials)
+            file_info = client.get_file_info(file_id)
             content = client.download_file(file_id)
         except (BoxAuthError, BoxApiError) as e:
             yield self.create_text_message(f"Failed to download Box file {file_id}: {e}")
             return
 
-        response: dict[str, Any] = {
-            "file_id": file_id,
-            "size": len(content),
-            "content_base64": base64.b64encode(content).decode("utf-8"),
-        }
-        if len(content) < 1024 * 1024:
-            try:
-                response["content_text"] = content.decode("utf-8")
-            except UnicodeDecodeError:
-                pass
+        file_name = file_info.get("name") or f"box_file_{file_id}"
+        mime_type = mimetypes.guess_type(file_name)[0] or "application/octet-stream"
 
-        yield self.create_text_message(f"File {file_id} downloaded successfully ({len(content)} bytes).")
-        yield self.create_json_message(response)
+        yield self.create_text_message(f"File '{file_name}' downloaded successfully ({len(content)} bytes).")
+        # Emitted as a Dify file (not just base64/JSON) so it can be used directly by
+        # downstream nodes (e.g. document extractor, LLM vision, another upload tool).
+        yield self.create_blob_message(content, meta={"filename": file_name, "mime_type": mime_type})
+        yield self.create_json_message({"file_id": file_id, "name": file_name, "size": len(content), "mime_type": mime_type})

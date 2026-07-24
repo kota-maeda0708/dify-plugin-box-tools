@@ -33,9 +33,10 @@ class BoxClient:
         if access_token:
             return access_token
 
-        client_id = credentials.get("client_id")
-        client_secret = credentials.get("client_secret")
-        box_subject_id = credentials.get("box_subject_id")
+        client_id = (credentials.get("client_id") or "").strip()
+        client_secret = (credentials.get("client_secret") or "").strip()
+        box_subject_id = (credentials.get("box_subject_id") or "").strip()
+        box_subject_type = (credentials.get("box_subject_type") or "enterprise").strip()
         if not client_id or not client_secret or not box_subject_id:
             raise BoxAuthError(
                 "Box credentials are incomplete: provide either an OAuth access token, "
@@ -46,7 +47,7 @@ class BoxClient:
             "grant_type": "client_credentials",
             "client_id": client_id,
             "client_secret": client_secret,
-            "box_subject_type": credentials.get("box_subject_type", "enterprise"),
+            "box_subject_type": box_subject_type,
             "box_subject_id": box_subject_id,
         }
         response = requests.post(BOX_TOKEN_URL, data=data, timeout=_REQUEST_TIMEOUT)
@@ -96,6 +97,10 @@ class BoxClient:
             "file": (file_name, file_content),
         }
         return self._request("POST", f"{BOX_UPLOAD_BASE}/files/content", files=files).json()
+
+    def get_file_info(self, file_id: str) -> dict[str, Any]:
+        params = {"fields": "id,name,size,extension"}
+        return self._request("GET", f"{BOX_API_BASE}/files/{file_id}", params=params).json()
 
     def download_file(self, file_id: str) -> bytes:
         return self._request("GET", f"{BOX_API_BASE}/files/{file_id}/content").content

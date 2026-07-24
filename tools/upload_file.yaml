@@ -11,19 +11,42 @@ description:
     ja_JP: Box フォルダに新しいファイルをアップロードします。
     zh_Hans: 将新文件上传到 Box 文件夹。
   llm: >-
-    Uploads a new file to a Box folder. Provide either plain text content or base64-encoded
-    binary content. Returns the created file's id, name and size. Note: this creates a new
-    file; use move_rename_item to overwrite/rename an existing one.
+    Uploads a new file to a Box folder. Provide a file (e.g. from an earlier workflow step,
+    such as this plugin's own download_file, a chat file upload, or another tool's output),
+    or plain text / base64-encoded content typed directly. Returns the created file's id,
+    name and size. Note: this creates a new file; use move_rename_item to overwrite/rename
+    an existing one.
 parameters:
+  - name: file
+    type: file
+    required: false
+    label:
+      en_US: File
+      ja_JP: ファイル
+    human_description:
+      en_US: >-
+        A file coming from an earlier step (e.g. a chat file upload, this plugin's
+        download_file output, or another tool). Takes priority over File Content / File
+        Content (Base64) when provided.
+      ja_JP: >-
+        前段のステップ(チャットでのファイル添付、このプラグインの download_file の出力、他のツールなど)から渡されるファイル。
+        指定した場合、テキスト/Base64入力より優先されます。
+    llm_description: >-
+      A file object to upload to Box, typically produced by an earlier workflow step.
+      Prefer wiring this over typing file_content/file_content_base64 when a file is
+      already available.
+    form: form
   - name: file_name
     type: string
-    required: true
+    required: false
     label:
       en_US: File Name
       ja_JP: ファイル名
     human_description:
-      en_US: The name the file should have in Box, including its extension.
-      ja_JP: Box 上でのファイル名(拡張子を含む)。
+      en_US: >-
+        The name the file should have in Box, including its extension. Required unless
+        File is provided and already carries a filename.
+      ja_JP: Box 上でのファイル名(拡張子を含む)。Fileを指定していてファイル名を持っている場合は省略可能です。
     llm_description: The file name to create in Box, e.g. "report.txt" or "image.png".
     form: llm
   - name: folder_id

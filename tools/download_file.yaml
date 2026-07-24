@@ -11,8 +11,9 @@ description:
     ja_JP: Box からファイルの内容をダウンロードします。
     zh_Hans: 从 Box 下载文件内容。
   llm: >-
-    Downloads the content of a Box file by its file ID and returns it as base64-encoded data
-    (and as plain text when the content decodes as UTF-8 text and is under 1MB).
+    Downloads the content of a Box file by its file ID and returns it as a file, ready to be
+    used by downstream nodes/tools (e.g. document extraction, LLM vision, or re-uploading
+    elsewhere) instead of as raw base64 text.
 parameters:
   - name: file_id
     type: string

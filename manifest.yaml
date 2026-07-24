@@ -20,8 +20,6 @@ resource:
       enabled: true
     model:
       enabled: false
-    storage:
-      enabled: false
 plugins:
   tools:
     - provider/box.yaml
