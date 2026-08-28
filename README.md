@@ -1,7 +1,7 @@
 # Box Plugin for Dify
 
 **Author:** kota-maeda0708
-**Version:** 0.0.1
+**Version:** 0.0.2
 **Type:** Tool
 **Source repository:** https://github.com/kota-maeda0708/dify-plugin-box-tools
 
