@@ -2,6 +2,8 @@ version: 0.0.2
 type: plugin
 author: kota-maeda0708
 name: box_tools
+repo: https://github.com/kota-maeda0708/dify-plugin-box-tools
+contact: kottyy2785@gmail.com
 label:
   en_US: Box
   ja_JP: Box
