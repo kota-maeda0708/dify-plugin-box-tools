@@ -5,9 +5,12 @@ from dify_plugin import Tool
 from dify_plugin.entities.tool import ToolInvokeMessage
 
 from box_client import BoxApiError, BoxAuthError, BoxClient
+from tools.outputs import listing_vars, with_outputs
+from tools.params import SEARCH_LIMIT_MAX, parse_limit
 
 
 class SearchFilesTool(Tool):
+    @with_outputs
     def _invoke(self, tool_parameters: dict[str, Any]) -> Generator[ToolInvokeMessage, None, None]:
         query = tool_parameters.get("query")
         if not query:
@@ -15,8 +18,11 @@ class SearchFilesTool(Tool):
             return
 
         folder_id = tool_parameters.get("folder_id") or None
-        limit_param = tool_parameters.get("limit")
-        limit = int(limit_param) if limit_param is not None else 20
+        try:
+            limit = parse_limit(tool_parameters.get("limit"), default=20, maximum=SEARCH_LIMIT_MAX)
+        except ValueError as e:
+            yield self.create_text_message(str(e))
+            return
 
         try:
             client = BoxClient(self.runtime.credentials)
@@ -28,6 +34,7 @@ class SearchFilesTool(Tool):
             yield self.create_text_message(f"Unexpected error while searching Box for '{query}': {e}")
             return
 
-        entries = result.get("entries", [])
+        entries = result.get("entries") or []
+        self._out.update(listing_vars(result), success=True)
         yield self.create_text_message(f"Found {len(entries)} item(s) matching '{query}'.")
         yield self.create_json_message({"query": query, "item_count": len(entries), "items": entries})

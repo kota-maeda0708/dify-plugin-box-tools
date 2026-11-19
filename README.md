@@ -1,7 +1,7 @@
 # Box Plugin for Dify
 
 **Author:** kota-maeda0708
-**Version:** 0.0.2
+**Version:** 0.1.0
 **Type:** Tool
 **Source repository:** https://github.com/kota-maeda0708/dify-plugin-box-tools
 
@@ -68,6 +68,50 @@ This plugin supports **two** authentication methods, selectable when you configu
   are not supported by this version of the plugin. Download File refuses files larger than
   **100MB** to avoid excessive memory use.
 
+## Output Variables
+
+In a workflow, **List Files** and **Search Files** expose their results as output variables
+in addition to the usual `text` and `json`, so no Code node is needed to pick them apart:
+
+| Variable | Type | Description |
+| --- | --- | --- |
+| `items` | `array[object]` | Each item's `id`, `name`, `type`, `size`, `created_at`, `modified_at` |
+| `file_ids` | `array[string]` | IDs of the files only (folders excluded); pass to an Iteration with Download File |
+| `folder_ids` | `array[string]` | IDs of the folders only (files excluded); pass to an Iteration with List Files |
+| `count` | `integer` | Number of items returned (files, folders and web links) |
+| `file_count` | `integer` | Number of files returned |
+| `folder_count` | `integer` | Number of folders returned |
+| `has_more` | `boolean` | True when Box reports more items than were returned (the result is partial) |
+| `success` | `boolean` | False when the tool stopped with an error |
+| `error` | `string` | Why the tool stopped, empty on success |
+
+The `json` output is unchanged, so existing workflows that read it keep working.
+
+Notes:
+
+- **When `has_more` is true, the result is partial.** Only the first `limit` items are returned,
+  and `file_ids`, `folder_ids` and the counts cover only those items. List Files returns folders
+  first, then files, then web links, so with a small `limit` its `file_ids` can be empty even
+  though the folder contains files. To process everything, set `limit` above the number of items
+  or check `has_more` and stop or warn when it is true.
+- **`limit` ranges.** List Files accepts 1 to 1000 (default 100) and Search Files 1 to 200
+  (default 20), the maximums of the Box API. Larger values are capped to the maximum. A value that
+  is not a whole number stops the tool with `success` false.
+- **Errors do not fail the node.** When Box returns an error, the tool node still finishes as
+  successful, so the node's "fail branch" error handling is not triggered. Branch on `success`
+  with an IF/ELSE node instead; `error` holds the reason. Every variable is still emitted with an
+  empty value (`[]`, `0`, `false`, `""`), so later nodes never see a missing variable.
+- Search results are ordered by Box's relevance, not by name.
+
+### Example: download every file in a folder
+
+1. **List Files** with the folder's ID.
+2. **Iteration** with `file_ids` from List Files as its input.
+3. Inside the Iteration, **Download File** with the Iteration's current item as `file_id`.
+4. Set the Iteration's output to Download File's `files` to collect all downloaded files.
+
+To walk into subfolders, pass `folder_ids` to another Iteration that runs List Files.
+
 ## Usage Examples
 
 ### List files in your Box root folder
@@ -113,3 +157,10 @@ Move the Box file with ID 123456789 into folder 987654321
 - A Box account
 - A Box application (OAuth 2.0 app, or a Client Credentials Grant app)
 - Dify platform
+
+## Running Tests
+
+```bash
+uv sync
+uv run --with pytest python -m pytest -q tests
+```

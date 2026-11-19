@@ -56,12 +56,67 @@ parameters:
       zh_Hans: 数量上限
       pt_BR: Limite
     human_description:
-      en_US: Maximum number of results to return (default 20).
-      ja_JP: 取得する件数の上限(デフォルト20件)。
-      zh_Hans: 返回结果的最大数量(默认 20)。
-      pt_BR: Número máximo de resultados a retornar (padrão 20).
-    llm_description: Maximum number of results to return. Defaults to 20.
+      en_US: Maximum number of results to return (default 20, at most 200; larger values are capped).
+      ja_JP: 取得する件数の上限(デフォルト20件、最大200件。超えた値は200件として扱います)。
+      zh_Hans: 返回结果的最大数量(默认 20，最多 200；超过的值按 200 处理)。
+      pt_BR: Número máximo de resultados a retornar (padrão 20, no máximo 200; valores maiores são limitados).
+    llm_description: Maximum number of results to return, a whole number from 1 to 200. Defaults to 20.
     form: llm
 extra:
   python:
     source: tools/search_files.py
+output_schema:
+  type: object
+  properties:
+    items:
+      type: array
+      description: Matching files and folders
+      items:
+        type: object
+        properties:
+          id:
+            type: string
+            description: Box item ID
+          name:
+            type: string
+            description: File or folder name
+          type:
+            type: string
+            description: '"file", "folder" or "web_link"'
+          size:
+            type: integer
+            description: Size in bytes
+          created_at:
+            type: string
+            description: Created time (ISO 8601)
+          modified_at:
+            type: string
+            description: Last modified time (ISO 8601)
+    file_ids:
+      type: array
+      description: IDs of the files only (folders excluded), ready to pass to Download File
+      items:
+        type: string
+    folder_ids:
+      type: array
+      description: IDs of the folders only (files excluded), ready to pass to List Files
+      items:
+        type: string
+    count:
+      type: integer
+      description: Number of items returned (files, folders and web links)
+    file_count:
+      type: integer
+      description: Number of files returned
+    folder_count:
+      type: integer
+      description: Number of folders returned
+    has_more:
+      type: boolean
+      description: True when Box reports more items than were returned (the result is partial)
+    success:
+      type: boolean
+      description: True when the tool finished; false when it stopped with an error
+    error:
+      type: string
+      description: Why the tool stopped, empty on success
