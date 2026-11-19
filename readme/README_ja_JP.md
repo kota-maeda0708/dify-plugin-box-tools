@@ -1,7 +1,7 @@
 # Dify 用 Box プラグイン
 
 **作者:** kota-maeda0708
-**バージョン:** 0.0.3
+**バージョン:** 0.1.0
 **タイプ:** ツール
 **ソースリポジトリ:** https://github.com/kota-maeda0708/dify-plugin-box-tools
 

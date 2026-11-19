@@ -1,7 +1,7 @@
 # Dify 的 Box 插件
 
 **作者：** kota-maeda0708
-**版本：** 0.0.3
+**版本：** 0.1.0
 **类型：** 工具
 **源代码仓库：** https://github.com/kota-maeda0708/dify-plugin-box-tools
 
